@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="EagleCashier - نظام كاشير ونقاط بيع متكامل من EAGLE.CO لإدارة المبيعات والمخزون والعملاء بكفاءة وسهولة.">
+    <title>EagleCashier | نظام نقاط البيع الأمثل لأعمالك</title>
+    <link rel="icon" href="logo.png"> <!-- Using logo.png as favicon -->
+
+    <style>
+        /* Reset and Basic Styles */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root { --primary-color: #3498db; --secondary-color: #2ecc71; --dark-bg: #2c3e50; --darker-bg: #233140; --card-bg: #34495e; --text-color: #ecf0f1; --text-muted: #bdc3c7; --border-color: #4a627a; --font-family: 'Tajawal', 'Cairo', sans-serif; }
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Tajawal:wght@400;700&display=swap');
+        html { scroll-behavior: smooth; font-size: 16px; }
+        body { font-family: var(--font-family); background-color: var(--dark-bg); color: var(--text-color); line-height: 1.7; direction: rtl; overflow-x: hidden; transition: overflow 0.3s ease; }
+        body.lightbox-open { overflow: hidden; } /* Prevent background scroll when lightbox is open */
+
+        /* Utility Classes */
+        .container { width: 90%; max-width: 1100px; margin: 0 auto; padding: 0 15px; }
+        h1, h2, h3 { margin-bottom: 1rem; line-height: 1.3; font-weight: 700; }
+        h1 { font-size: 2.5rem; }
+        h2 { font-size: 2rem; color: var(--primary-color); text-align: center; margin-bottom: 2.5rem;}
+        h3 { font-size: 1.5rem; color: var(--secondary-color); }
+        p { margin-bottom: 1rem; color: var(--text-muted); }
+        a { color: var(--primary-color); text-decoration: none; transition: color 0.3s ease; }
+        a:hover { color: var(--secondary-color); }
+        img { max-width: 100%; height: auto; display: block; border-radius: 8px; }
+        .btn { display: inline-block; padding: 12px 30px; background-color: var(--primary-color); color: #fff; border: none; border-radius: 5px; font-size: 1rem; font-weight: bold; cursor: pointer; transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease; text-align: center; }
+        .btn:hover { background-color: #2980b9; transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
+        .btn-secondary { background-color: var(--secondary-color); }
+        .btn-secondary:hover { background-color: #27ae60; }
+
+        /* Scroll Reveal Base Styles */
+        section, .feature-item, .screenshot-item, .main-footer {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        section.visible, .feature-item.visible, .screenshot-item.visible, .main-footer.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        #hero { opacity: 1; transform: none; } /* Hero is visible by default */
+
+        /* Header */
+        .main-header { background-color: var(--darker-bg); padding: 15px 0; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3); }
+        .main-header .container { display: flex; justify-content: space-between; align-items: center; }
+        .logo { display: flex; align-items: center; color: var(--text-color); font-size: 1.5rem; font-weight: bold; }
+        .logo img { height: 40px; width: auto; margin-left: 10px; filter: brightness(0) invert(1); /* Adjust if logo is light */ }
+        .main-nav ul { list-style: none; display: flex; padding: 0; margin: 0; }
+        .main-nav ul li { margin: 0 12px; }
+        .main-nav ul li:last-child { margin-left: 0; }
+        .main-nav ul li:first-child { margin-right: 0; }
+        .main-nav ul li a { color: var(--text-muted); font-weight: bold; transition: color 0.3s ease, border-bottom-color 0.3s ease; padding: 5px 0; border-bottom: 2px solid transparent; /* Reserve space for border */ }
+        .main-nav ul li a:hover, .main-nav ul li a.active { color: var(--text-color); border-bottom-color: var(--primary-color); /* Highlight active/hover link */ }
+
+        /* Hero Section */
+        #hero { background: linear-gradient(rgba(44, 62, 80, 0.85), rgba(44, 62, 80, 0.95)), url('1.png') no-repeat center center/cover; background-attachment: fixed; color: #fff; text-align: center; padding: 100px 0; position: relative; }
+        .hero .container { position: relative; z-index: 2; }
+        .hero h1 { font-size: 3rem; margin-bottom: 1rem; text-shadow: 2px 2px 5px rgba(0,0,0,0.5); }
+        .hero p { font-size: 1.2rem; margin-bottom: 2rem; max-width: 700px; margin-left: auto; margin-right: auto; color: var(--text-color); }
+        .hero .btn { margin: 5px 10px; /* Added margin-top/bottom for better spacing if buttons wrap */ }
+
+        /* Features Section */
+        #features { background-color: var(--darker-bg); padding: 60px 0; }
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; text-align: center; }
+        .feature-item { background-color: var(--card-bg); padding: 30px; border-radius: 8px; border: 1px solid var(--border-color); transition-property: transform, box-shadow, opacity; } /* Added explicit transition properties */
+        .feature-item:hover { transform: translateY(-5px) scale(1.02); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); }
+        .feature-icon { font-size: 2.5rem; margin-bottom: 1rem; color: var(--primary-color); font-weight: bold; line-height: 1; }
+        .feature-item h3 { margin-bottom: 0.5rem; }
+        .feature-item p { font-size: 0.95rem; color: var(--text-muted); }
+
+        /* Screenshots Section */
+        #screenshots { background-color: var(--dark-bg); padding: 60px 0; }
+        .screenshots-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .screenshot-item { background-color: var(--card-bg); padding: 15px; border-radius: 8px; border: 1px solid var(--border-color); text-align: center; display: flex; flex-direction: column; justify-content: space-between; transition-property: opacity, transform; } /* Added explicit transition properties */
+        .screenshot-item img { margin-bottom: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); cursor: pointer; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .screenshot-item img:hover { transform: scale(1.05); box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4); }
+        .screenshot-item p { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 0; margin-top: auto; }
+
+        /* Call to Action Section */
+        #cta { background-color: var(--primary-color); color: #fff; text-align: center; padding: 60px 0; }
+        #cta h2 { color: #fff; margin-bottom: 1.5rem; }
+        #cta p:first-of-type { color: rgba(255, 255, 255, 0.9); margin-bottom: 1rem; } /* Target only the first paragraph */
+        .contact-info {
+            margin-top: 1.5rem;
+            margin-bottom: 2rem;
+            transition: opacity 0.5s ease-in-out, max-height 0.5s ease-in-out, visibility 0s linear 0.5s; /* Delay visibility change */
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            visibility: hidden; /* Hide completely when not visible */
+         }
+        .contact-info.visible {
+            opacity: 1;
+            max-height: 100px; /* Adjust as needed based on content */
+            visibility: visible;
+             transition: opacity 0.5s ease-in-out, max-height 0.5s ease-in-out, visibility 0s linear 0s;
+        }
+        .contact-info p { margin-bottom: 0.5rem; font-size: 1.1rem; }
+        .contact-info a { color: #fff; font-weight: bold; text-decoration: underline; text-decoration-color: rgba(255, 255, 255, 0.5); transition: text-decoration-color 0.3s ease; }
+        .contact-info a:hover { text-decoration-color: #fff; }
+
+        /* Footer */
+        .main-footer { background-color: var(--darker-bg); color: var(--text-muted); text-align: center; padding: 20px 0; margin-top: 40px; font-size: 0.9rem; transition-property: opacity, transform; }
+        .main-footer p { margin-bottom: 5px; color: var(--text-muted); }
+        .main-footer a { color: var(--text-muted); }
+        .main-footer a:hover { color: var(--text-color); }
+
+        /* Lightbox Styles */
+        .lightbox {
+            display: none; /* Initially hidden */
+            position: fixed; z-index: 2000; padding-top: 20px; padding-bottom: 20px; /* Added padding */
+            left: 0; top: 0; width: 100%; height: 100%;
+            overflow: auto; background-color: rgba(0,0,0,0.9);
+            align-items: center; justify-content: center;
+            opacity: 0; transition: opacity 0.4s ease;
+        }
+        .lightbox.visible { opacity: 1; }
+        .lightbox-content {
+            margin: auto; display: block; max-width: 90%; max-height: calc(100vh - 40px); /* Adjusted for padding */
+            width: auto; height: auto; transform: scale(0.8); transition: transform 0.4s ease;
+        }
+        .lightbox.visible .lightbox-content { transform: scale(1); }
+        .close-lightbox { position: absolute; top: 15px; right: 35px; color: #f1f1f1; font-size: 40px; font-weight: bold; transition: color 0.3s ease; cursor: pointer; user-select: none; }
+        .close-lightbox:hover, .close-lightbox:focus { color: #bbb; text-decoration: none; }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; } .hero h1 { font-size: 2.5rem; } h2 { font-size: 1.8rem; } h3 { font-size: 1.3rem; }
+            .main-header .container { flex-direction: column; align-items: center; } .logo { margin-bottom: 10px; }
+            .main-nav ul { justify-content: center; flex-wrap: wrap; } .main-nav ul li { margin: 5px 10px; } .main-nav ul li:last-child, .main-nav ul li:first-child { margin-left: 10px; margin-right: 10px; }
+            .hero { padding: 80px 0; background-attachment: scroll; } .hero p { font-size: 1rem; } .hero .btn { display: block; width: 80%; margin: 10px auto; }
+            .features-grid { grid-template-columns: 1fr; } .screenshots-grid { grid-template-columns: 1fr; }
+            section { padding: 40px 0; } h2 { margin-bottom: 1.5rem; } .lightbox-content { max-width: 95%; max-height: calc(100vh - 40px); } .close-lightbox { font-size: 30px; top: 10px; right: 20px; } .contact-info.visible { max-height: 150px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="main-header">
+        <div class="container">
+            <a href="#hero" class="logo"> <!-- Link logo to hero section -->
+                <img src="logo.png" alt="Eagle.co Logo">
+                <span>EAGLE.CO</span>
+            </a>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#hero">الرئيسية</a></li>
+                    <li><a href="#features">الميزات</a></li>
+                    <li><a href="#screenshots">لقطات شاشة</a></li>
+                    <li><a href="#cta" id="nav-contact-link">تواصل معنا</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="hero" class="hero">
+             <div class="container">
+                 <h1>EagleCashier</h1>
+                 <p>نظام نقاط البيع الأمثل لإدارة أعمالك بكفاءة وسهولة. حل متكامل للمبيعات، المخزون، العملاء، والمصروفات مصمم خصيصًا للشركات والمتاجر.</p>
+                 <a href="#features" class="btn">اكتشف الميزات</a>
+                 <a href="#cta" class="btn btn-secondary" id="request-demo-btn">اطلب عرضًا تجريبيًا</a>
+             </div>
+         </section>
+
+        <!-- Features Section -->
+        <section id="features" class="observe">
+            <div class="container">
+                <h2>لماذا تختار EagleCashier؟</h2>
+                <div class="features-grid">
+                    <div class="feature-item observe"> <div class="feature-icon">🛒</div><h3>نظام نقاط بيع سريع وسهل</h3><p>واجهة مستخدم بسيطة وبديهية تسرع عملية البيع وتقلل الأخطاء. تدعم البحث السريع وإضافة المنتجات بسهولة.</p> </div>
+                    <div class="feature-item observe"> <div class="feature-icon">📦</div><h3>إدارة متكاملة للمخزون</h3><p>تتبع كميات المنتجات بدقة، واحصل على تنبيهات عند انخفاض المخزون. سهولة إضافة المنتجات وتعديل الأرصدة.</p> </div>
+                    <div class="feature-item observe"> <div class="feature-icon">👥</div><h3>إدارة العملاء</h3><p>سجل بيانات عملائك وتتبع مشترياتهم. ابنِ علاقات قوية وقدم عروضًا مخصصة.</p> </div>
+                    <div class="feature-item observe"> <div class="feature-icon">📊</div><h3>تقارير مفصلة</h3><p>احصل على رؤى قيمة حول مبيعاتك، أرباحك، وأداء الموظفين من خلال تقارير شاملة وقابلة للتخصيص.</p> </div>
+                    <div class="feature-item observe"> <div class="feature-icon">🧾</div><h3>إدارة الفواتير والمصروفات</h3><p>أصدر فواتير احترافية وتتبع مصروفات عملك بسهولة للحصول على صورة مالية واضحة.</p> </div>
+                    <div class="feature-item observe"> <div class="feature-icon">🔒</div><h3>أمان وصلاحيات</h3><p>نظام آمن مع صلاحيات مختلفة للمستخدمين لضمان حماية بيانات عملك الحساسة.</p> </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Screenshots Section -->
+        <section id="screenshots" class="observe">
+            <div class="container">
+                <h2>شاهد النظام أثناء العمل</h2>
+                <div class="screenshots-grid">
+                    <div class="screenshot-item observe"><img src="1.png" alt="واجهة البيع الرئيسية" class="screenshot-img"><p>واجهة البيع الرئيسية وإدارة الطلب الحالي</p></div>
+                    <div class="screenshot-item observe"><img src="3.png" alt="عرض المنتجات المتاحة" class="screenshot-img"><p>عرض المنتجات المتاحة مع فلترة الفئات</p></div>
+                    <div class="screenshot-item observe"><img src="8.png" alt="سجل المبيعات والتقارير" class="screenshot-img"><p>سجل المبيعات المفصل والبحث المتقدم</p></div>
+                    <div class="screenshot-item observe"><img src="7.png" alt="إضافة منتج جديد" class="screenshot-img"><p>نافذة إضافة منتج جديد بتفاصيله</p></div>
+                    <div class="screenshot-item observe"><img src="9.png" alt="تعديل المخزون اليدوي" class="screenshot-img"><p>تعديل المخزون اليدوي للمنتجات</p></div>
+                    <div class="screenshot-item observe"><img src="4.png" alt="فاتورة مبيعات" class="screenshot-img"><p>مثال على فاتورة مبيعات جاهزة للطباعة</p></div>
+                    <div class="screenshot-item observe"><img src="10.png" alt="إدارة العملاء" class="screenshot-img"><p>إدارة بيانات العملاء وإضافة عميل جديد</p></div>
+                    <div class="screenshot-item observe"><img src="12.png" alt="إدارة المصروفات" class="screenshot-img"><p>تسجيل وإدارة المصروفات التشغيلية</p></div>
+                    <div class="screenshot-item observe"><img src="6.png" alt="تأكيد الدفع" class="screenshot-img"><p>نافذة تأكيد الدفع وتحديد المبلغ المدفوع</p></div>
+                    <div class="screenshot-item observe"><img src="5.png" alt="إدارة الفئات" class="screenshot-img"><p>إدارة فئات المنتجات</p></div>
+                    <div class="screenshot-item observe"><img src="11.png" alt="تفريغ الكاشيرات" class="screenshot-img"><p>نافذة تفريغ الكاشيرات</p></div>
+                    <div class="screenshot-item observe"><img src="2.png" alt="شاشة تسجيل الدخول" class="screenshot-img"><p>شاشة تسجيل الدخول الآمنة</p></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Call to Action Section -->
+        <section id="cta" class="observe">
+            <div class="container">
+                <h2>هل أنت مستعد لتطوير أعمالك مع EagleCashier؟</h2>
+                <p>تواصل معنا اليوم للحصول على عرض توضيحي مجاني أو للاستفسار عن أي تفاصيل.</p>
+                <div class="contact-info" id="contact-details">
+                    <p>البريد الإلكتروني: <a href="mailto:omaressamit@gmail.com">omaressamit@gmail.com</a></p>
+                    <p>الهاتف: <a href="tel:01274554868">01274554868</a></p>
+                </div>
+                <a href="mailto:omaressamit@gmail.com?subject=Inquiry%20about%20EagleCashier" class="btn btn-secondary">أرسل لنا بريدًا إلكترونيًا</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer observe">
+        <div class="container">
+            <p>جميع الحقوق محفوظة © 2024 <a href="#hero">EAGLE.CO لتطوير البرمجيات والأمن</a></p> <!-- Link company name to top -->
+            <p>Alexandria, Egypt</p>
+        </div>
+    </footer>
+
+    <!-- The Lightbox Modal -->
+    <div id="lightbox-modal" class="lightbox">
+      <span class="close-lightbox" title="إغلاق (Esc)">×</span> <!-- Added title attribute -->
+      <img class="lightbox-content" id="lightbox-image" src="" alt="لقطة شاشة مكبرة">
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const navLinks = document.querySelectorAll('.main-nav a[href^="#"]');
+            const contactNavLink = document.getElementById('nav-contact-link');
+            const contactDetailsDiv = document.getElementById('contact-details');
+            const requestDemoBtn = document.getElementById('request-demo-btn');
+            const header = document.querySelector('.main-header');
+            const lightboxModal = document.getElementById("lightbox-modal");
+            const lightboxImage = document.getElementById("lightbox-image");
+            const screenshotImages = document.querySelectorAll(".screenshot-img");
+            const closeModalBtn = document.querySelector(".close-lightbox");
+            let isLightboxOpen = false; // Track lightbox state
+
+            // --- Function to scroll to section and manage contact info/active link ---
+            function scrollToSection(targetId, showContact) {
+                const targetElement = document.querySelector(targetId);
+                if (!targetElement) return;
+
+                // Consider sticky header height for accurate scrolling
+                const headerOffset = header ? header.offsetHeight : 0;
+                const elementPosition = targetElement.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: "smooth"
+                });
+
+                // Update active nav link
+                navLinks.forEach(link => {
+                    link.classList.toggle('active', link.getAttribute('href') === targetId);
+                });
+
+                // Toggle contact info visibility with a slight delay for smoother transition after scroll
+                if (contactDetailsDiv) {
+                    // Clear any previous timeouts to prevent conflicts
+                    clearTimeout(contactDetailsDiv.timeoutId);
+                    contactDetailsDiv.timeoutId = setTimeout(() => {
+                        contactDetailsDiv.classList.toggle('visible', showContact);
+                    }, 150); // Delay slightly after scroll starts
+                }
+            }
+
+            // --- Event Listeners for Navigation Links ---
+            navLinks.forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const isContactLink = this === contactNavLink;
+                    // If clicking the contact link, toggle its visibility, otherwise hide it
+                    const shouldShowContact = isContactLink ? !contactDetailsDiv.classList.contains('visible') : false;
+                    scrollToSection(targetId, shouldShowContact);
+                });
+            });
+
+            // --- Event Listener for Request Demo Button ---
+            if (requestDemoBtn) {
+                requestDemoBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href'); // Should be #cta
+                    scrollToSection(targetId, true); // Always show contact info when clicking demo button
+                });
+            }
+
+            // --- Lightbox Functionality ---
+            function openLightbox(imgElement) {
+                 if (!lightboxModal || !lightboxImage || isLightboxOpen) return;
+                 isLightboxOpen = true;
+                 lightboxImage.src = imgElement.src;
+                 lightboxImage.alt = imgElement.alt;
+                 lightboxModal.style.display = 'flex'; // Make container visible
+
+                 // Delay adding 'visible' class slightly to ensure transition triggers
+                 requestAnimationFrame(() => {
+                    lightboxModal.classList.add('visible');
+                    document.body.classList.add('lightbox-open'); // Prevent body scroll
+                 });
+            }
+
+            function closeTheModal() {
+                if (!lightboxModal || !isLightboxOpen) return;
+                lightboxModal.classList.remove('visible'); // Start fade-out
+
+                // Use transitionend to hide completely *after* fade-out
+                lightboxModal.addEventListener('transitionend', function handleTransitionEnd(event) {
+                    // Ensure it's the opacity transition ending and it's still meant to be hidden
+                    if (event.propertyName === 'opacity' && !lightboxModal.classList.contains('visible')) {
+                        lightboxModal.style.display = 'none';
+                        document.body.classList.remove('lightbox-open'); // Allow body scroll
+                        isLightboxOpen = false; // Update state
+                        lightboxModal.removeEventListener('transitionend', handleTransitionEnd); // Clean up listener
+                    }
+                }, { once: true }); // Listener runs only once
+            }
+
+            // Add click listeners to screenshot images
+            screenshotImages.forEach(img => {
+                img.addEventListener("click", function() { openLightbox(this); });
+            });
+
+            // Close modal listeners (button, background click, Escape key)
+            if (closeModalBtn) { closeModalBtn.addEventListener("click", closeTheModal); }
+            if (lightboxModal) {
+                lightboxModal.addEventListener("click", function(event) {
+                    if (event.target === lightboxModal) { closeTheModal(); } // Click on background
+                });
+            }
+            document.addEventListener('keydown', function(event) {
+                if (event.key === "Escape" && isLightboxOpen) { closeTheModal(); }
+            });
+
+             // --- Scroll Reveal Animation using Intersection Observer ---
+             const elementsToObserve = document.querySelectorAll('.observe');
+             if ("IntersectionObserver" in window) { // Check if browser supports IntersectionObserver
+                 const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
+                 const observerCallback = (entries, observer) => {
+                     entries.forEach(entry => {
+                         if (entry.isIntersecting) {
+                             entry.target.classList.add('visible');
+                             observer.unobserve(entry.target); // Stop observing once visible (optional, improves performance)
+                         }
+                     });
+                 };
+                 const intersectionObserver = new IntersectionObserver(observerCallback, observerOptions);
+                 elementsToObserve.forEach(el => intersectionObserver.observe(el));
+             } else {
+                 // Fallback for older browsers: Make all elements visible immediately
+                 elementsToObserve.forEach(el => el.classList.add('visible'));
+             }
+
+        }); // End DOMContentLoaded
+    </script>
+
+</body>
+</html>
