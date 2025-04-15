@@ -79,6 +79,32 @@
         .screenshot-item img:hover { transform: scale(1.05); box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4); }
         .screenshot-item p { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 0; margin-top: auto; }
 
+        /* Promotion Section Styles (Added) */
+        #promo-offer {
+            background-color: var(--dark-bg); /* Using existing dark bg */
+            padding: 60px 0;
+            text-align: center; /* Center heading and potentially image if needed */
+        }
+        #promo-offer h2 {
+            margin-bottom: 2rem;
+            color: var(--text-color); /* White text for heading */
+            text-align: center; /* Explicitly center heading */
+        }
+        .promo-image {
+            margin: 0 auto; /* Center the image */
+            border-radius: 8px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+            max-width: 100%; /* Ensure responsiveness */
+            height: auto;
+            display: block; /* Needed for margin auto centering */
+        }
+        /* Optional: Adjust max-width for the promo image on larger screens */
+        @media (min-width: 768px) {
+            .promo-image {
+                max-width: 70%; /* Example: Limit width slightly */
+            }
+        }
+
         /* Call to Action Section */
         #cta { background-color: var(--primary-color); color: #fff; text-align: center; padding: 60px 0; }
         #cta h2 { color: #fff; margin-bottom: 1.5rem; }
@@ -133,7 +159,10 @@
             .main-nav ul { justify-content: center; flex-wrap: wrap; } .main-nav ul li { margin: 5px 10px; } .main-nav ul li:last-child, .main-nav ul li:first-child { margin-left: 10px; margin-right: 10px; }
             .hero { padding: 80px 0; background-attachment: scroll; } .hero p { font-size: 1rem; } .hero .btn { display: block; width: 80%; margin: 10px auto; }
             .features-grid { grid-template-columns: 1fr; } .screenshots-grid { grid-template-columns: 1fr; }
-            section { padding: 40px 0; } h2 { margin-bottom: 1.5rem; } .lightbox-content { max-width: 95%; max-height: calc(100vh - 40px); } .close-lightbox { font-size: 30px; top: 10px; right: 20px; } .contact-info.visible { max-height: 150px; }
+            section { padding: 40px 0; } h2 { margin-bottom: 1.5rem; }
+            #promo-offer { padding: 40px 0; } /* Adjust padding for promo on mobile */
+            .promo-image { max-width: 90%; } /* Adjust promo image size on mobile */
+            .lightbox-content { max-width: 95%; max-height: calc(100vh - 40px); } .close-lightbox { font-size: 30px; top: 10px; right: 20px; } .contact-info.visible { max-height: 150px; }
         }
     </style>
 </head>
@@ -200,9 +229,18 @@
                     <div class="screenshot-item observe"><img src="5.png" alt="إدارة الفئات" class="screenshot-img"><p>إدارة فئات المنتجات</p></div>
                     <div class="screenshot-item observe"><img src="11.png" alt="تفريغ الكاشيرات" class="screenshot-img"><p>نافذة تفريغ الكاشيرات</p></div>
                     <div class="screenshot-item observe"><img src="2.png" alt="شاشة تسجيل الدخول" class="screenshot-img"><p>شاشة تسجيل الدخول الآمنة</p></div>
+                    <div class="screenshot-item observe"><img src="13.png" alt="حركة الصنف وتتبع التغييرات" class="screenshot-img"><p>تتبع حركة الأصناف وسجل التغييرات</p></div> {/* <!-- Added Screenshot 13 --> */}
                 </div>
             </div>
         </section>
+
+        <!-- Promotion Section (Added) -->
+        <section id="promo-offer" class="observe">
+             <div class="container">
+                 <h2 style="margin-bottom: 2rem;">عروض خاصة لفترة محدودة!</h2>
+                 <img src="14.jpg" alt="إعلان عرض EagleCashier يبدأ من 1999 جنيه مصري" class="promo-image">
+             </div>
+         </section>
 
         <!-- Call to Action Section -->
         <section id="cta" class="observe">
